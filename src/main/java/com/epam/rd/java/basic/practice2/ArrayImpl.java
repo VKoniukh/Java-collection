@@ -3,21 +3,23 @@ package com.epam.rd.java.basic.practice2;
 import java.util.Iterator;
 
 public class ArrayImpl implements Array {
-    private Object[] installArr = {};
+    private Integer elementSize = 0;
+    // При создании SimpleArrayList, емкость массива по умолчанию 16
+    private Integer arrayCapacity = 16;
+    // Когда емкости массива недостаточно, размер каждого раскрытия по умолчанию
+    private static final Integer DEFUALT_EXPAND_SIZE = 16;
+    // Контейнер элемента
+    Object[] array = null;
 
-    private Object[] elementData = null;
-
-    private int size = 0;
-
-	@Override
+    @Override
     public void clear() {
-        for (int i = 0; i < elementData.length; i++)
-            elementData[i] = null;
+        for (int i = 0; i < array.length; i++)
+            array[i] = null;
     }
 
 	@Override
     public int size() {
-	    int sum = elementData.length;
+	    int sum = array.length;
             return sum;
     }
 	
