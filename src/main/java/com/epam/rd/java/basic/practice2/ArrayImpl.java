@@ -1,28 +1,22 @@
 package com.epam.rd.java.basic.practice2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 
-public class ArrayImpl <E> implements Array {
+public class ArrayImpl implements Array {
     private static final int DEFAULT_CAPACITY = 10;
     private static final Object[] EMPTY_ELEMENTDATA = {};
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
     private int size;
     transient Object[] elementData;
 
-    public ArrayImpl(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        if ((size = a.length) != 0) {
-            if (c.getClass() == ArrayList.class) {
-                elementData = a;
-            } else {
-                elementData = Arrays.copyOf(a, size, Object[].class);
-            }
+    public ArrayImpl(int initialCapacity) {
+        if (initialCapacity > 0) {
+            this.elementData = new Object[initialCapacity];
+        } else if (initialCapacity == 0) {
+            this.elementData = EMPTY_ELEMENTDATA;
         } else {
-            // replace with empty array.
-            elementData = EMPTY_ELEMENTDATA;
+            throw new IllegalArgumentException("Illegal Capacity: "+
+                    initialCapacity);
         }
     }
 
