@@ -3,16 +3,22 @@ package com.epam.rd.java.basic.practice2;
 import java.util.Iterator;
 
 public class ArrayImpl implements Array {
+    private Object[] installArr = {};
+
+    private Object[] elementData = null;
+
+    private int size = 0;
 
 	@Override
     public void clear() {
-        //for (int i = 0; i < 000; i++)
-         //   elementData[i] = null;
+        for (int i = 0; i < elementData.length; i++)
+            elementData[i] = null;
     }
 
 	@Override
     public int size() {
-        return 0;
+	    int sum = elementData.length;
+            return sum;
     }
 	
 	@Override
@@ -36,7 +42,7 @@ public class ArrayImpl implements Array {
 	
 	@Override
     public void add(Object element) {
-        
+
     }
 
 	@Override
