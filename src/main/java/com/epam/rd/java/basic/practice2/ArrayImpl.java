@@ -6,8 +6,8 @@ public class ArrayImpl implements Array {
 
 	@Override
     public void clear() {
-        for (int i = 0; i < 000; i++)
-            elementData[i] = null;
+        //for (int i = 0; i < 000; i++)
+         //   elementData[i] = null;
     }
 
 	@Override
