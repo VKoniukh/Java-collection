@@ -18,5 +18,4 @@ public interface Array extends Container {
  
     // Removes the element at the specified position.
     void remove(int index);
- 
 }
