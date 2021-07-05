@@ -1,26 +1,47 @@
 package com.epam.rd.java.basic.practice2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 
-public class ArrayImpl implements Array {
-    private Integer elementSize = 0;
-    // При создании SimpleArrayList, емкость массива по умолчанию 16
-    private Integer arrayCapacity = 16;
-    // Когда емкости массива недостаточно, размер каждого раскрытия по умолчанию
-    private static final Integer DEFUALT_EXPAND_SIZE = 16;
-    // Контейнер элемента
-    Object[] array = null;
+public class ArrayImpl <E> implements Array {
+    private static final int DEFAULT_CAPACITY = 10;
+    private static final Object[] EMPTY_ELEMENTDATA = {};
+    private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
+    private int size;
+    transient Object[] elementData;
+
+    public ArrayImpl(Collection<? extends E> c) {
+        Object[] a = c.toArray();
+        if ((size = a.length) != 0) {
+            if (c.getClass() == ArrayList.class) {
+                elementData = a;
+            } else {
+                elementData = Arrays.copyOf(a, size, Object[].class);
+            }
+        } else {
+            // replace with empty array.
+            elementData = EMPTY_ELEMENTDATA;
+        }
+    }
+
+    protected transient int modCount = 0;
 
     @Override
     public void clear() {
-        for (int i = 0; i < array.length; i++)
-            array[i] = null;
+        modCount++;
+
+        // clear to let GC do its work
+        for (int i = 0; i < size; i++)
+            elementData[i] = null;
+
+        size = 0;
     }
 
 	@Override
     public int size() {
-	    int sum = array.length;
-            return sum;
+        return size;
     }
 	
 	@Override
