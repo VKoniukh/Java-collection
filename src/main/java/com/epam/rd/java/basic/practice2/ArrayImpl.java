@@ -67,13 +67,13 @@ public class ArrayImpl <element> implements Array {
 
     @Override
     public void add(Object element) {
-        if (size == elementData.length) {
-
-            Object[] newArray = new Object[elementData.length + (elementData.length >> 1)];
-            System.arraycopy(elementData, 0, newArray, 0, elementData.length);
-            elementData = newArray;
+        Object [] arrCopy = new Object[this.size + 1];
+        for (int i = 0, j =0; i < this.size; i++, j++) {
+            arrCopy[j] = elementData[i];
         }
-        elementData[size++] = element;
+        arrCopy[this.size] = element;
+        ++this.size;
+        elementData = arrCopy;
     }
 
 
