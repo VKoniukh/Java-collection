@@ -74,7 +74,6 @@ public class ArrayImpl <element> implements Array {
             elementData = newArray;
         }
         elementData[size++] = element;
-        size++;
     }
 
 
