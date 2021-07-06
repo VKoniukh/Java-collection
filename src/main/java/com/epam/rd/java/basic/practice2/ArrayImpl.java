@@ -63,9 +63,11 @@ public class ArrayImpl<T> implements Array {
         if (size == elementData.length) {
             Object[] temp = new Object[(elementData.length * 2)];
             System.arraycopy(elementData, 0, temp, 0, elementData.length);
-            elementData = temp; //вызываем метод, который отвечает за увеличение массива
+            elementData[size] = temp;
+            elementData[size++] = element;
+        } else {
+            elementData[size++] = element; //записываем в конец списка новое значение
         }
-        elementData[size] = element; //записываем в конец списка новое значение
         size++;  //увеличиваем значение переменной размера списка
     }
 
