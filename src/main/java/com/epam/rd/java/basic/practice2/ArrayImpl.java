@@ -3,10 +3,10 @@ package com.epam.rd.java.basic.practice2;
 import java.util.Iterator;
 
 public class ArrayImpl<T> implements Array {
-    private int index = 0;
-    private static final int DEFAULT_CAPACITY = 10;
-    private int size = 0;
-    private Object[] elementData;
+    public int index = 0;
+    public static final int DEFAULT_CAPACITY = 10;
+    public int size = 0;
+    public Object[] elementData;
 
     public ArrayImpl(int initialCapacity) {
         if (initialCapacity > 0) {
@@ -60,15 +60,15 @@ public class ArrayImpl<T> implements Array {
 
     @Override
     public void add(Object element) {
-        if (size == elementData.length) {
-            Object[] temp = new Object[(elementData.length * 2)];
-            System.arraycopy(elementData, 0, temp, 0, elementData.length);
-            elementData[size] = temp;
+        if(size < elementData.length){
             elementData[size++] = element;
         } else {
-            elementData[size++] = element; //записываем в конец списка новое значение
+            Object[] temp = new Object[(elementData.length * 2)];
+            System.arraycopy(elementData, 0, temp, 0, elementData.length);
+            elementData = temp;
+            elementData[size++] = element;
         }
-        size++;  //увеличиваем значение переменной размера списка
+        size++;
     }
 
 
