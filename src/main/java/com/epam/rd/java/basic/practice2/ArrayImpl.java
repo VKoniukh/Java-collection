@@ -2,84 +2,92 @@ package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
 
-public class ArrayImpl implements Array {
+public class ArrayImpl<T> implements Array {
+    private int index = 0;
     private static final int DEFAULT_CAPACITY = 10;
-    private static final Object[] EMPTY_ELEMENTDATA = {};
-    private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
-    private int size;
-    transient Object[] elementData;
+    private int size = 0;
+    private Object[] elementData;
 
     public ArrayImpl(int initialCapacity) {
         if (initialCapacity > 0) {
             this.elementData = new Object[initialCapacity];
-        } else if (initialCapacity == 0) {
-            this.elementData = EMPTY_ELEMENTDATA;
         } else {
-            throw new IllegalArgumentException("Illegal Capacity: "+
+            throw new IllegalArgumentException("Illegal Capacity: " +
                     initialCapacity);
         }
     }
 
-    protected transient int modCount = 0;
 
     @Override
     public void clear() {
-        modCount++;
 
-        // clear to let GC do its work
         for (int i = 0; i < size; i++)
             elementData[i] = null;
 
         size = 0;
     }
 
-	@Override
+    @Override
     public int size() {
         return size;
     }
-	
-	@Override
+
+    @Override
     public Iterator<Object> iterator() {
-	    return new IteratorImpl();
+        return new IteratorImpl();
     }
-	
-	private class IteratorImpl implements Iterator<Object> {
+
+    private class IteratorImpl implements Iterator {
+
+        private int index = 0;
+        Object[] values;
+
+        IteratorImpl() {
+            this.values = values;
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return index < values.length;
         }
 
         @Override
         public Object next() {
-            return null;
+            return values[index++];
         }
 
     }
-	
-	@Override
+
+    @Override
     public void add(Object element) {
-
+        if (size == elementData.length) {
+            Object[] temp = new Object[(elementData.length * 2)];
+            System.arraycopy(elementData, 0, temp, 0, elementData.length);
+            elementData = temp; //вызываем метод, который отвечает за увеличение массива
+        }
+        elementData[size] = element; //записываем в конец списка новое значение
+        size++;  //увеличиваем значение переменной размера списка
     }
 
-	@Override
+
+    @Override
     public void set(int index, Object element) {
-        
+
     }
 
-	@Override
+    @Override
     public Object get(int index) {
         return null;
     }
 
-	@Override
+    @Override
     public int indexOf(Object element) {
         return 0;
     }
 
-	@Override
+    @Override
     public void remove(int index) {
-        
+
     }
 
     @Override
