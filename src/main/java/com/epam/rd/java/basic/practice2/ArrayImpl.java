@@ -2,18 +2,25 @@ package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
 
-public class ArrayImpl<T> implements Array {
-    public int index = 0;
-    public static final int DEFAULT_CAPACITY = 10;
+public class ArrayImpl <element> implements Array {
     public int size = 0;
-    public Object[] elementData;
+    public int arrayCapacity = 16;
+    public static final Integer DEFUALT_EXPAND_SIZE = 16;
+    public int index = 0;
 
-    public ArrayImpl(int initialCapacity) {
-        if (initialCapacity > 0) {
-            this.elementData = new Object[initialCapacity];
+    Object[] elementData = null;
+
+    public ArrayImpl() {
+        this(DEFUALT_EXPAND_SIZE);
+    }
+
+    public ArrayImpl(int arrayCapacity) {
+        super();
+        if (arrayCapacity > 0) {
+            elementData = new Object[arrayCapacity];
+            this.arrayCapacity = arrayCapacity;
         } else {
-            throw new IllegalArgumentException("Illegal Capacity: " +
-                    initialCapacity);
+            throw new IllegalArgumentException("Пространство массива вне границ");
         }
     }
 
@@ -60,10 +67,10 @@ public class ArrayImpl<T> implements Array {
 
     @Override
     public void add(Object element) {
-        if(size < elementData.length){
+        if (size < elementData.length) {
             elementData[size++] = element;
         } else {
-            Object[] temp = new Object[(elementData.length)];
+            Object[] temp = new Object[(elementData.length * 2)];
             System.arraycopy(elementData, 0, temp, 0, elementData.length);
             elementData = temp;
             elementData[size++] = element;
