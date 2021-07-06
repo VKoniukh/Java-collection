@@ -63,7 +63,7 @@ public class ArrayImpl<T> implements Array {
         if(size < elementData.length){
             elementData[size++] = element;
         } else {
-            Object[] temp = new Object[(elementData.length * 2)];
+            Object[] temp = new Object[(elementData.length)];
             System.arraycopy(elementData, 0, temp, 0, elementData.length);
             elementData = temp;
             elementData[size++] = element;
