@@ -142,9 +142,9 @@ public class ArrayImpl implements Array {
         return sb.toString();
     }
 
-//    public static void main(String[] args) {
-//        //Can test classes here
-//
-//    }
+    public static void main(String[] args) {
+        //Can test classes here
+
+    }
 
 }
