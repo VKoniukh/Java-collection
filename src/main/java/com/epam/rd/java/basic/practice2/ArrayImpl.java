@@ -1,9 +1,6 @@
 package com.epam.rd.java.basic.practice2;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
     public int size = 0;
@@ -45,33 +42,23 @@ public class ArrayImpl implements Array {
 
     @Override
     public Iterator<Object> iterator() {
-        return new IteratorImpl();
-    }
+        //return new IteratorImpl();
+        Iterator<Object> it = new Iterator<Object>() {
 
-    private class IteratorImpl implements Iterator<Object> {
-        int cursor;
-        int lastRet = -1;
+            private int currentIndex = 0;
 
-        IteratorImpl() {
-        }
+            @Override
+            public boolean hasNext() {
+                return currentIndex < size && elementData[currentIndex] != null;
+            }
 
-        @Override
-        public boolean hasNext() {
-            return cursor != size;
-        }
+            @Override
+            public Object next() {
+                return elementData[currentIndex++];
+            }
 
-        @Override
-        public Object next() {
-            int i = cursor;
-            if (i >= size)
-                throw new NoSuchElementException();
-            Object[] elementData = ArrayImpl.this.elementData;
-            if (i >= elementData.length)
-                throw new ConcurrentModificationException();
-            cursor = i + 1;
-            return (Object) elementData[lastRet = i];
-        }
-
+        };
+        return it;
     }
 
 
