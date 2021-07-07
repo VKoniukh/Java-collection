@@ -2,7 +2,7 @@ package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
 
-public class ArrayImpl <element> implements Array {
+public class ArrayImpl implements Array {
     public int size = 0;
     public int arrayCapacity = 16;
     public static final Integer DEFUALT_EXPAND_SIZE = 16;
@@ -79,12 +79,19 @@ public class ArrayImpl <element> implements Array {
 
     @Override
     public void set(int index, Object element) {
-
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException("Element can't be found! ");
+        } else {
+            elementData[index] = element;
+        }
     }
 
     @Override
     public Object get(int index) {
-        return null;
+        if(index > size-1 || index < 0){
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return (Object) elementData[index];
     }
 
     @Override
@@ -94,15 +101,44 @@ public class ArrayImpl <element> implements Array {
 
     @Override
     public void remove(int index) {
+        for(int i=0;i < elementData.length; i++){
+            Object ob = elementData[i];
+            if(ob.equals(index)){
+                int numMoved = size - i - 1;
+                if (numMoved > 0){
+                    System.arraycopy(elementData, i+1, elementData, i,
+                            numMoved);
+                    size--;
+                    elementData[size]=null;
 
+                }
+                break;
+            }
+        }
     }
 
     @Override
     public String toString() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("[");
+        for(int i=0;i<size;i++){
+            sb.append(elementData[i]+",");
+        }
+        sb.setCharAt(sb.length()-1, ']');
+
+        return  sb.toString();
     }
 
     public static void main(String[] args) {
+         ArrayImpl s1 = new ArrayImpl();
+
+        for(int i=0;i<400;i++){
+            s1.add("baba "+i);
+        }
+
+
+        System.out.println(s1);
 
     }
 
