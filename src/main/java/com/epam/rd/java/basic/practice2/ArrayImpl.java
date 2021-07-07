@@ -1,6 +1,9 @@
 package com.epam.rd.java.basic.practice2;
 
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
     public int size = 0;
@@ -39,31 +42,38 @@ public class ArrayImpl implements Array {
         return size;
     }
 
+
     @Override
     public Iterator<Object> iterator() {
         return new IteratorImpl();
     }
 
-    private class IteratorImpl implements Iterator {
-
-        private int index = 0;
-        Object[] values;
+    private class IteratorImpl implements Iterator<Object> {
+        int cursor;
+        int lastRet = -1;
 
         IteratorImpl() {
-            this.values = values;
         }
 
         @Override
         public boolean hasNext() {
-            return index < values.length;
+            return cursor != size;
         }
 
         @Override
         public Object next() {
-            return values[index++];
+            int i = cursor;
+            if (i >= size)
+                throw new NoSuchElementException();
+            Object[] elementData = ArrayImpl.this.elementData;
+            if (i >= elementData.length)
+                throw new ConcurrentModificationException();
+            cursor = i + 1;
+            return (Object) elementData[lastRet = i];
         }
 
     }
+
 
     @Override
     public void add(Object element) {
@@ -121,13 +131,13 @@ public class ArrayImpl implements Array {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("[");
+        StringBuilder sb = new StringBuilder("[ ");
         if (size == 0) {
             sb.append("]");
             return sb.toString();
         } else {
             for (int i = 0; i < size; i++) {
-                sb.append(elementData[i] + "").append(",");
+                sb.append(elementData[i] + "").append(", ");
             }
         }
         sb.setCharAt(sb.length() - 1, ']');
