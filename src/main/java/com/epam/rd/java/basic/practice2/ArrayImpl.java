@@ -110,20 +110,13 @@ public class ArrayImpl implements Array {
 
     @Override
     public void remove(int index) {
-        for (int i = 0; i < elementData.length; i++) {
-            Object ob = elementData[i];
-            if (ob.equals(index)) {
-                int numMoved = size - i - 1;
-                if (numMoved > 0) {
-                    System.arraycopy(elementData, i + 1, elementData, i,
-                            numMoved);
-                    size--;
-                    elementData[size] = null;
-
-                }
-                break;
-            }
+        if (index > size - 1 || index < 0) {
+            throw new ArrayIndexOutOfBoundsException(index);
         }
+        for (int i = index; i < size - 1; i++) {
+            elementData[i] = elementData[i + 1];
+        }
+        size--;
     }
 
     @Override
