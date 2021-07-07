@@ -67,8 +67,8 @@ public class ArrayImpl implements Array {
 
     @Override
     public void add(Object element) {
-        Object [] arrCopy = new Object[this.size + 1];
-        for (int i = 0, j =0; i < this.size; i++, j++) {
+        Object[] arrCopy = new Object[this.size + 1];
+        for (int i = 0, j = 0; i < this.size; i++, j++) {
             arrCopy[j] = elementData[i];
         }
         arrCopy[this.size] = element;
@@ -88,7 +88,7 @@ public class ArrayImpl implements Array {
 
     @Override
     public Object get(int index) {
-        if(index > size-1 || index < 0){
+        if (index > size - 1 || index < 0) {
             throw new ArrayIndexOutOfBoundsException(index);
         }
         return (Object) elementData[index];
@@ -96,20 +96,29 @@ public class ArrayImpl implements Array {
 
     @Override
     public int indexOf(Object element) {
-        return 0;
+        if (element == null) {
+            for (int i = 0; i < size; i++)
+                if (elementData[i] == null)
+                    return i;
+        } else {
+            for (int i = 0; i < size; i++)
+                if (element.equals(elementData[i]))
+                    return i;
+        }
+        return -1;
     }
 
     @Override
     public void remove(int index) {
-        for(int i=0;i < elementData.length; i++){
+        for (int i = 0; i < elementData.length; i++) {
             Object ob = elementData[i];
-            if(ob.equals(index)){
+            if (ob.equals(index)) {
                 int numMoved = size - i - 1;
-                if (numMoved > 0){
-                    System.arraycopy(elementData, i+1, elementData, i,
+                if (numMoved > 0) {
+                    System.arraycopy(elementData, i + 1, elementData, i,
                             numMoved);
                     size--;
-                    elementData[size]=null;
+                    elementData[size] = null;
 
                 }
                 break;
@@ -119,26 +128,21 @@ public class ArrayImpl implements Array {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("[");
-        for(int i=0;i<size;i++){
-            sb.append(elementData[i]+",");
+        StringBuilder sb = new StringBuilder("[");
+        if (size == 0) {
+            sb.append("]");
+            return sb.toString();
+        } else {
+            for (int i = 0; i < size; i++) {
+                sb.append(elementData[i] + "").append(",");
+            }
         }
-        sb.setCharAt(sb.length()-1, ']');
-
-        return  sb.toString();
+        sb.setCharAt(sb.length() - 1, ']');
+        return sb.toString();
     }
 
     public static void main(String[] args) {
-         ArrayImpl s1 = new ArrayImpl();
-
-        for(int i=0;i<400;i++){
-            s1.add("baba "+i);
-        }
-
-
-        System.out.println(s1);
+        //Can test classes here
 
     }
 
