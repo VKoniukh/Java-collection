@@ -49,7 +49,7 @@ public class ArrayImpl implements Array {
 
             @Override
             public boolean hasNext() {
-                return currentIndex < size && elementData[currentIndex] != null;
+                return currentIndex < size;
             }
 
             @Override
