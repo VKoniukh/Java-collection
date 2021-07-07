@@ -61,16 +61,23 @@ public class ArrayImpl implements Array {
         return it;
     }
 
-
     @Override
     public void add(Object element) {
-        Object[] arrCopy = new Object[this.size + 1];
-        for (int i = 0, j = 0; i < this.size; i++, j++) {
-            arrCopy[j] = elementData[i];
+//        Object[] arrCopy = new Object[this.size + 1];
+//        for (int i = 0, j = 0; i < this.size; i++, j++) {
+//            arrCopy[j] = elementData[i];
+//        }
+//        arrCopy[this.size] = element;
+//        ++this.size;
+//        elementData = arrCopy;
+        if (size < elementData.length) {
+            elementData[size++] = element;
+        } else {
+            Object[] temp = new Object[(elementData.length * 2)];
+            System.arraycopy(elementData, 0, temp, 0, elementData.length);
+            elementData = temp;
+            elementData[size++] = element;
         }
-        arrCopy[this.size] = element;
-        ++this.size;
-        elementData = arrCopy;
     }
 
 
@@ -118,13 +125,17 @@ public class ArrayImpl implements Array {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("[ ");
+        StringBuilder sb = new StringBuilder("[");
         if (size == 0) {
             sb.append("]");
             return sb.toString();
         } else {
             for (int i = 0; i < size; i++) {
-                sb.append(elementData[i] + "").append(", ");
+                if (i == size - 1) {
+                    sb.append(elementData[i]);
+                } else {
+                    sb.append(elementData[i]).append(", ");
+                }
             }
         }
         sb.setCharAt(sb.length() - 1, ']');
