@@ -138,13 +138,13 @@ public class ArrayImpl implements Array {
                 }
             }
         }
-        sb.setCharAt(sb.length() - 1, ']');
+        sb.append("]");
         return sb.toString();
     }
 
-    public static void main(String[] args) {
-        //Can test classes here
-
-    }
+//    public static void main(String[] args) {
+//        //Can test classes here
+//
+//    }
 
 }
