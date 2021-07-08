@@ -5,36 +5,131 @@ import java.util.NoSuchElementException;
 
 public class ListImpl implements List {
 
-    public static class Node {
-        Object currentElement;
-        // Ссылка на следующий узел текущего узла
-        Node nextElement;
-        // Ссылка на предыдущий узел текущего узла
-        Node prevElement;
+   Node head; // head of list
+    private int size = 0;
 
-        public Node(Node prevElement, Object currentElement, Node nextElement) {
-            this.currentElement = currentElement;
-            this.nextElement = nextElement;
-            this.prevElement = prevElement;
+    /* Doubly Linked list Node*/
+    class Node {
+        Object data;
+        Node prev;
+        Node next;
+
+        // Constructor to create a new node
+        // next and prev is by default initialized as null
+        Node(Object d) { data = d; }
+    }
+
+    // Adding a node at the front of the list
+    @Override
+    public void addFirst(Object new_data)
+    {
+        /* 1. allocate node
+         * 2. put in the data */
+        Node new_Node = new Node(new_data);
+
+        /* 3. Make next of new node as head and previous as NULL */
+        new_Node.next = head;
+        new_Node.prev = null;
+
+        /* 4. change prev of head node to new node */
+        if (head != null)
+            head.prev = new_Node;
+
+        /* 5. move the head to point to the new node */
+        head = new_Node;
+        size++;
+    }
+
+    /* Given a node as prev_node, insert
+    a new node after the given node */
+    public void InsertAfter(Node prev_Node, int new_data)
+    {
+
+        /*1. check if the given prev_node is NULL */
+        if (prev_Node == null) {
+            System.out.println("The given previous node cannot be NULL ");
+            return;
         }
+
+        /* 2. allocate node
+         * 3. put in the data */
+        Node new_node = new Node(new_data);
+
+        /* 4. Make next of new node as next of prev_node */
+        new_node.next = prev_Node.next;
+
+        /* 5. Make the next of prev_node as new_node */
+        prev_Node.next = new_node;
+
+        /* 6. Make prev_node as previous of new_node */
+        new_node.prev = prev_Node;
+
+        /* 7. Change previous of new_node's next node */
+        if (new_node.next != null)
+            new_node.next.prev = new_node;
     }
 
+    // Add a node at the end of the list
+    @Override
+    public void addLast(Object new_data)    {
+        /* 1. allocate node
+         * 2. put in the data */
+        Node new_node = new Node(new_data);
 
-    private int size = 0; // Записать размер LinkedList
-    private Node head; // указывает головной узел LinkedList
-    private Node last; // указывает на хвостовой узел LinkedList
+        Node last = head; /* used in step 5*/
 
-    public ListImpl() {
-        head = new Node(last,null, null);
-        last = new Node(null, null, head);
+        /* 3. This new node is going to be the last node, so
+         * make next of it as NULL*/
+        new_node.next = null;
+
+        /* 4. If the Linked List is empty, then make the new
+         * node as head */
+        if (head == null) {
+            new_node.prev = null;
+            head = new_node;
+            return;
+        }
+
+        /* 5. Else traverse till the last node */
+        while (last.next != null)
+            last = last.next;
+
+        /* 6. Change the next of last node */
+        last.next = new_node;
+
+        /* 7. Make last node as previous of new node */
+        new_node.prev = last;
+        size++;
     }
 
+    // This function prints contents of
+    // linked list starting from the given node
+//    public void printlist(Node node)
+//    {
+//        Node last = null;
+//        System.out.println("Traversal in forward Direction");
+//        while (node != null) {
+//            System.out.print(node.data + " ");
+//            last = node;
+//            node = node.next;
+//        }
+//        System.out.println();
+//        System.out.println("Traversal in reverse direction");
+//        while (last != null) {
+//            System.out.print(last.data + " ");
+//            last = last.prev;
+//        }
+//    }
+
+    /* Driver program to test above functions*/
+    public static void main(String[] args)
+    {
+    }
 
     @Override
     public void clear() {
         if (size > 0) {
             head = null;
-            last = null;
             size = 0;
         }
     }
@@ -53,100 +148,62 @@ public class ListImpl implements List {
 
         @Override
         public boolean hasNext() {
-            return temp == null;
+            return temp != null;
         }
 
         @Override
         public Object next() {
-            return temp.currentElement;
+            Object data = temp.data;
+            temp = temp.next;
+            return data;
         }
-
     }
 
-    @Override
-    public void addFirst(Object element) {
+//    @Override
+//    public void addFirst(Object element) {
+//
+//    }
 
-        final Node f = head;
-        final ListImpl.Node newNode = new ListImpl.Node(null, element, f);
-        head = newNode;
-        if (f == null) {
-            last = newNode;
-        } else {
-            head.prevElement = newNode;
-            size++;
-        }
-            return;
-    }
-
-
-//        Node next = new Node();
-//        next.setCurrentElement(element);
-//        firstNode = new Node(null, null, next);
-//        next.setCurrentElement(firstNode);
-//        size++;
-
-    @Override
-    public void addLast(Object element) {
-//        Node prev = lastNode;
-//        prev.setCurrentElement(element);
-//        lastNode = new Node(null, prev, null);
-//        prev.setNextElement(lastNode);
-//        size++;
-        final Node l = last;
-        final ListImpl.Node newNode = new ListImpl.Node(null, element, l);
-        last = newNode;
-        if (l == null)
-            head = newNode;
-        else
-            l.nextElement = newNode;
-        size++;
-    }
 
     @Override
     public void removeFirst() {
-        final ListImpl.Node next = head;
-        if (next == null)
+        final Node removed = head;
+        if (removed == null)
             throw new NoSuchElementException();
 
-        final ListImpl.Node f1 = next.nextElement;
-        next.nextElement = null;
+        final Node f1 = removed.next;
+        removed.next = null;
         head = f1;
-        if (f1 == null)
-            last = null;
-        else
-            f1.prevElement = null;
         size--;
+
     }
 
     @Override
     public void removeLast() {
-        final ListImpl.Node l = last;
-        if (l == null)
-            throw new NoSuchElementException();
-        final ListImpl.Node prev = l.prevElement;
-        prev.prevElement = null;
-        last = prev;
-        if (prev == null)
-            head = null;
-        else
-            prev.nextElement = null;
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        Node prev = temp.prev;
+        prev.next = null;
         size--;
     }
 
     @Override
     public Object getFirst() {
-        final ListImpl.Node f = head;
+        final Node f = head;
         if (f == null)
             throw new NoSuchElementException();
-        return f.currentElement;
+        return f.data;
     }
 
     @Override
     public Object getLast() {
-        final ListImpl.Node l = last;
-        if (l == null)
-            throw new NoSuchElementException();
-        return l.currentElement;
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        return temp.data;
     }
 
     @Override
@@ -154,66 +211,105 @@ public class ListImpl implements List {
         if (head == null) {
             return null;
         }
-        Node currNode = head;
-        if (element == null) {
-            while (currNode.nextElement != null) {
-                if (currNode.prevElement == null) {
-                    return null;
-                }
-                currNode = currNode.nextElement;
+
+        Node temp = head;
+
+        // While loop is used to search the entire Linked
+        // List starting from the tail
+        while (temp != null) {
+
+            // Returns the index of that particular element,
+            // if found.
+            if (temp.data.equals(element)) {
+                return temp.data;
             }
-            if (currNode.prevElement == null) {
-                return null;
-            }
-            return null;
-        } else {
-            while (currNode.nextElement != null) {
-                if (currNode.prevElement.equals(element)) {
-                    return currNode.prevElement;
-                }
-                currNode = currNode.nextElement;
-            }
-            if (element.equals(currNode.prevElement)) {
-                return currNode.prevElement;
-            }
-            return null;
+
+            // Gradually increases index while
+            // traversing through the Linked List
+            temp = temp.next;
         }
+
+        // Returns -1 if the element is not found
+        return null;
+//        if (head == null) {
+//            return null;
+//        }
+//        Node currNode = head;
+//        if (element == null) {
+//            while (currNode.next != null) {
+//                if (currNode.prev == null) {
+//                    return null;
+//                }
+//                currNode = currNode.next;
+//            }
+//            if (currNode.prev == null) {
+//                return null;
+//            }
+//            return null;
+//        } else {
+//            while (currNode.next != null) {
+//                if (currNode.prev.data.equals(element)) {
+//                    return currNode.prev.data;
+//                }
+//                currNode = currNode.next;
+//            }
+//            if (element.equals(currNode.prev.data)) {
+//                return currNode.prev.data;
+//            }
+//            return null;
+//        }
+    }
+
+    Object unlink(Node x) {
+        // assert x != null;
+        final Object element = x.data;
+        final Node next = x.next;
+        final Node prev = x.prev;
+
+        if (prev == null) {
+            head = next;
+        } else {
+            prev.next = next;
+            x.prev = null;
+        }
+        next.prev = prev;
+        x.next = null;
+
+        x.data = null;
+        size--;
+        return element;
     }
 
     @Override
     public boolean remove(Object element) {
-//        if (element == null) {
-//            for (ListImpl.Node x = head; x != null; x = x.nextElement) {
-//                if (x.currentElement == null) {
-//                    unlink(x);
-//                    return true;
-//                }
-//            }
-//        } else {
-//            for (LinkedList.Node<E> x = first; x != null; x = x.next) {
-//                if (o.equals(x.item)) {
-//                    unlink(x);
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
+        if (element == null) {
+            for (Node x = head; x != null; x = x.next) {
+                if (x.data == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            for (Node x = head; x != null; x = x.next) {
+                if (element.equals(x.data)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
         return false;
     }
+
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         Node temp = head;
         while (temp != null) {
-            sb.append(temp.currentElement + ",");
-            temp = temp.nextElement;
+            sb.append(temp.data + ",");
+            temp = temp.next;
         }
         sb.setCharAt(sb.length() - 1, ']');
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        //Can test classes here
     }
 }
