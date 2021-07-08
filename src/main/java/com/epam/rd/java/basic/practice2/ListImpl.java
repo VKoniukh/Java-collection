@@ -167,12 +167,12 @@ public class ListImpl implements List {
             return null;
         } else {
             while (currNode.nextElement != null) {
-                if (element.equals(currNode.prevElement)) {
+                if (currNode.prevElement.equals(element)) {
                     return currNode.prevElement;
                 }
                 currNode = currNode.nextElement;
             }
-            if (currNode.prevElement.equals(element)) {
+            if (element.equals(currNode.prevElement)) {
                 return currNode.prevElement;
             }
             return null;
