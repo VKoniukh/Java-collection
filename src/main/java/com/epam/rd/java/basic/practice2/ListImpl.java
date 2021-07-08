@@ -32,9 +32,9 @@ public class ListImpl implements List {
         new_Node.prev = null;
 
         /* 4. change prev of head node to new node */
-        if (head != null)
+        if (head != null) {
             head.prev = new_Node;
-
+        }
         /* 5. move the head to point to the new node */
         head = new_Node;
         size++;
@@ -59,6 +59,7 @@ public class ListImpl implements List {
         if (head == null) {
             new_node.prev = null;
             head = new_node;
+            size++;
             return;
         }
 
@@ -82,10 +83,8 @@ public class ListImpl implements List {
 
     @Override
     public void clear() {
-        if (size > 0) {
             head = null;
             size = 0;
-        }
     }
 
     @Override
@@ -112,12 +111,6 @@ public class ListImpl implements List {
             return data;
         }
     }
-
-//    @Override
-//    public void addFirst(Object element) {
-//
-//    }
-
 
     @Override
     public void removeFirst() {
@@ -176,7 +169,7 @@ public class ListImpl implements List {
 
             // Returns the index of that particular element,
             // if found.
-            if (temp.data.equals(element)) {
+            if (element.equals(temp.data)) { //  temp.data.equals(element)) {
                 return temp.data;
             }
 
