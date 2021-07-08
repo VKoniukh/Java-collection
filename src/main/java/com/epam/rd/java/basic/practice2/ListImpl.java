@@ -138,14 +138,18 @@ public class ListImpl implements List {
     @Override
     public Object getFirst() {
         final Node f = head;
-        if (f == null)
-            throw new NoSuchElementException();
+        if (f == null) {
+            return null;
+        }
         return f.data;
     }
 
     @Override
     public Object getLast() {
         Node temp = head;
+        if (temp == null) {
+            return null;
+        }
         while (temp.next != null) {
             temp = temp.next;
         }
@@ -212,7 +216,7 @@ public class ListImpl implements List {
     Object unlink(Node x) {
         // assert x != null;
         final Object element = x.data;
-        final Node next = x.next;
+        Node next = x.next;
         final Node prev = x.prev;
 
         if (prev == null) {
@@ -221,7 +225,12 @@ public class ListImpl implements List {
             prev.next = next;
             x.prev = null;
         }
-        next.prev = prev;
+        if (next == null) {
+            next = prev;
+        } else {
+            next.prev = prev;
+        }
+
         x.next = null;
 
         x.data = null;

@@ -39,7 +39,10 @@ public class Demo {
         System.out.println(objects.toString());
         System.out.println(objects.search("z"));
         System.out.println(objects.toString());
-
+        objects.addLast(null);
+        System.out.println(objects.toString());
+        objects.remove(null);
+        System.out.println(objects.toString());
         Iterator<Object> iterator = objects.iterator();
             while (iterator.hasNext()) {
                 System.out.println(iterator.next());
