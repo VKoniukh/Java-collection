@@ -40,34 +40,6 @@ public class ListImpl implements List {
         size++;
     }
 
-    /* Given a node as prev_node, insert
-    a new node after the given node */
-    public void InsertAfter(Node prev_Node, int new_data)
-    {
-
-        /*1. check if the given prev_node is NULL */
-        if (prev_Node == null) {
-            System.out.println("The given previous node cannot be NULL ");
-            return;
-        }
-
-        /* 2. allocate node
-         * 3. put in the data */
-        Node new_node = new Node(new_data);
-
-        /* 4. Make next of new node as next of prev_node */
-        new_node.next = prev_Node.next;
-
-        /* 5. Make the next of prev_node as new_node */
-        prev_Node.next = new_node;
-
-        /* 6. Make prev_node as previous of new_node */
-        new_node.prev = prev_Node;
-
-        /* 7. Change previous of new_node's next node */
-        if (new_node.next != null)
-            new_node.next.prev = new_node;
-    }
 
     // Add a node at the end of the list
     @Override
@@ -102,28 +74,10 @@ public class ListImpl implements List {
         size++;
     }
 
-    // This function prints contents of
-    // linked list starting from the given node
-//    public void printlist(Node node)
-//    {
-//        Node last = null;
-//        System.out.println("Traversal in forward Direction");
-//        while (node != null) {
-//            System.out.print(node.data + " ");
-//            last = node;
-//            node = node.next;
-//        }
-//        System.out.println();
-//        System.out.println("Traversal in reverse direction");
-//        while (last != null) {
-//            System.out.print(last.data + " ");
-//            last = last.prev;
-//        }
-//    }
 
-    /* Driver program to test above functions*/
     public static void main(String[] args)
     {
+//        TTTT
     }
 
     @Override
@@ -175,7 +129,6 @@ public class ListImpl implements List {
         removed.next = null;
         head = f1;
         size--;
-
     }
 
     @Override
@@ -209,6 +162,9 @@ public class ListImpl implements List {
     @Override
     public Object search(Object element) {
         if (head == null) {
+            return null;
+        }
+        if (element == null) {
             return null;
         }
 
@@ -306,9 +262,10 @@ public class ListImpl implements List {
         StringBuilder sb = new StringBuilder("[");
         Node temp = head;
         while (temp != null) {
-            sb.append(temp.data + ",");
+            sb.append(temp.data + ", ");
             temp = temp.next;
         }
+        sb.deleteCharAt(sb.length() - 1);
         sb.setCharAt(sb.length() - 1, ']');
         return sb.toString();
     }

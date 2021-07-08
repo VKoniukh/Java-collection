@@ -37,8 +37,7 @@ public class Demo {
         System.out.println( objects.getFirst());
         System.out.println( objects.getLast());
         System.out.println(objects.toString());
-        System.out.println(objects.search("b"));
-        objects.remove("b");
+        System.out.println(objects.search("z"));
         System.out.println(objects.toString());
 
         Iterator<Object> iterator = objects.iterator();
