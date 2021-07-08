@@ -90,7 +90,7 @@ public class ListImpl implements List {
         Node next = firstNode;
         next.setCurrentElement(element);
         firstNode = new Node(null, null, next);
-        next.setPrevElement(firstNode);
+        next.setCurrentElement(firstNode);
         size++;
     }
 
