@@ -13,14 +13,14 @@ public class ListImpl implements List {
         firstNode = new Node(null, null, lastNode);
     }
 
-    public class Node<E> {
+    private static class Node<E> {
         private E currentElement;
         // Ссылка на следующий узел текущего узла
         private Node<E> nextElement;
         // Ссылка на предыдущий узел текущего узла
         private Node<E> prevElement;
 
-        private Node(Node<E> prevElement, E currentElement, Node<E> nextElement) {
+        private Node(E currentElement, Node<E> nextElement, Node<E> prevElement) {
             this.currentElement = currentElement;
             this.nextElement = nextElement;
             this.prevElement = prevElement;
@@ -54,6 +54,11 @@ public class ListImpl implements List {
 
     @Override
     public void clear() {
+        if (size > 0) {
+            firstNode = null;
+            lastNode = null;
+            size = 0;
+        }
     }
 
     @Override
@@ -84,7 +89,7 @@ public class ListImpl implements List {
     public void addFirst(Object element) {
         Node next = firstNode;
         next.setCurrentElement(element);
-        firstNode = new Node<>(null, null, next);
+        firstNode = new Node(null, null, next);
         next.setPrevElement(firstNode);
         size++;
     }
@@ -132,7 +137,14 @@ public class ListImpl implements List {
 
     @Override
     public String toString() {
-        return null;
+        StringBuilder sb = new StringBuilder("[");
+        Node temp = firstNode;
+        while(temp != null){
+            sb.append(temp.currentElement+",");
+            temp = temp.nextElement;
+        }
+        sb.setCharAt(sb.length()-1, ']');
+        return sb.toString();
     }
 
     public static void main(String[] args) {
