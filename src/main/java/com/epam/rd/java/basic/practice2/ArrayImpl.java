@@ -27,7 +27,6 @@ public class ArrayImpl implements Array {
 
     @Override
     public void clear() {
-
         for (int i = 0; i < size; i++)
             elementData[i] = null;
 
@@ -42,7 +41,6 @@ public class ArrayImpl implements Array {
 
     @Override
     public Iterator<Object> iterator() {
-        //return new IteratorImpl();
         Iterator<Object> it = new Iterator<Object>() {
 
             private int currentIndex = 0;
@@ -63,13 +61,6 @@ public class ArrayImpl implements Array {
 
     @Override
     public void add(Object element) {
-//        Object[] arrCopy = new Object[this.size + 1];
-//        for (int i = 0, j = 0; i < this.size; i++, j++) {
-//            arrCopy[j] = elementData[i];
-//        }
-//        arrCopy[this.size] = element;
-//        ++this.size;
-//        elementData = arrCopy;
         if (size < elementData.length) {
             elementData[size++] = element;
         } else {
@@ -144,7 +135,6 @@ public class ArrayImpl implements Array {
 
     public static void main(String[] args) {
         //Can test classes here
-
     }
 
 }
