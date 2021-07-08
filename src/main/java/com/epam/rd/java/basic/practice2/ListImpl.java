@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class ListImpl implements List {
 
-   Node head; // head of list
+    Node head; // head of list
     private int size = 0;
 
     /* Doubly Linked list Node*/
@@ -16,13 +16,14 @@ public class ListImpl implements List {
 
         // Constructor to create a new node
         // next and prev is by default initialized as null
-        Node(Object d) { data = d; }
+        Node(Object d) {
+            data = d;
+        }
     }
 
     // Adding a node at the front of the list
     @Override
-    public void addFirst(Object new_data)
-    {
+    public void addFirst(Object new_data) {
         /* 1. allocate node
          * 2. put in the data */
         Node new_Node = new Node(new_data);
@@ -43,7 +44,7 @@ public class ListImpl implements List {
 
     // Add a node at the end of the list
     @Override
-    public void addLast(Object new_data)    {
+    public void addLast(Object new_data) {
         /* 1. allocate node
          * 2. put in the data */
         Node new_node = new Node(new_data);
@@ -76,15 +77,14 @@ public class ListImpl implements List {
     }
 
 
-    public static void main(String[] args)
-    {
-//        TTTT
+    public static void main(String[] args) {
+        //Can test classes here
     }
 
     @Override
     public void clear() {
-            head = null;
-            size = 0;
+        head = null;
+        size = 0;
     }
 
     @Override
@@ -181,36 +181,7 @@ public class ListImpl implements List {
             // traversing through the Linked List
             temp = temp.next;
         }
-
-        // Returns -1 if the element is not found
         return null;
-//        if (head == null) {
-//            return null;
-//        }
-//        Node currNode = head;
-//        if (element == null) {
-//            while (currNode.next != null) {
-//                if (currNode.prev == null) {
-//                    return null;
-//                }
-//                currNode = currNode.next;
-//            }
-//            if (currNode.prev == null) {
-//                return null;
-//            }
-//            return null;
-//        } else {
-//            while (currNode.next != null) {
-//                if (currNode.prev.data.equals(element)) {
-//                    return currNode.prev.data;
-//                }
-//                currNode = currNode.next;
-//            }
-//            if (element.equals(currNode.prev.data)) {
-//                return currNode.prev.data;
-//            }
-//            return null;
-//        }
     }
 
     Object unlink(Node x) {
