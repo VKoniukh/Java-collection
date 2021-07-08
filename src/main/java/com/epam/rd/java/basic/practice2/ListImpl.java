@@ -66,10 +66,11 @@ public class ListImpl implements List {
     }
 
     private class IteratorImpl implements Iterator<Object> {
+        int counter = 0;
 
         @Override
         public boolean hasNext() {
-            return false;
+            return counter >= 0;
         }
 
         @Override
@@ -81,13 +82,18 @@ public class ListImpl implements List {
 
     @Override
     public void addFirst(Object element) {
+        Node next = firstNode;
+        next.setCurrentElement(element);
+        firstNode = new Node<>(null, null, next);
+        next.setPrevElement(firstNode);
+        size++;
     }
 
     @Override
     public void addLast(Object element) {
         Node prev = lastNode;
         prev.setCurrentElement(element);
-        lastNode = new Node(null,null,prev);
+        lastNode = new Node(null, prev, null);
         prev.setNextElement(lastNode);
         size++;
     }
@@ -105,13 +111,13 @@ public class ListImpl implements List {
     @Override
     public Object getFirst() {
         Node target1 = firstNode.getNextElement();
-        return target1.getCurrentElement();
+        return target1;
     }
 
     @Override
     public Object getLast() {
         Node target2 = lastNode.getPrevElement();
-        return target2.getCurrentElement();
+        return target2;
     }
 
     @Override
