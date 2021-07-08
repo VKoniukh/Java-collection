@@ -12,7 +12,7 @@ public class ListImpl implements List {
         // Ссылка на предыдущий узел текущего узла
         Node prevElement;
 
-        public Node(Object currentElement, Node nextElement, Node prevElement) {
+        public Node(Node prevElement, Object currentElement, Node nextElement) {
             this.currentElement = currentElement;
             this.nextElement = nextElement;
             this.prevElement = prevElement;
@@ -25,8 +25,8 @@ public class ListImpl implements List {
     private Node last; // указывает на хвостовой узел LinkedList
 
     public ListImpl() {
-        head = new Node(null, null, last);
-        last = new Node(null, head, null);
+        head = new Node(last,null, null);
+        last = new Node(null, null, head);
     }
 
 
@@ -67,7 +67,7 @@ public class ListImpl implements List {
     public void addFirst(Object element) {
 
         final Node f = head;
-        final ListImpl.Node newNode = new ListImpl.Node(element, f, null);
+        final ListImpl.Node newNode = new ListImpl.Node(null, element, f);
         head = newNode;
         if (f == null) {
             last = newNode;
@@ -75,6 +75,8 @@ public class ListImpl implements List {
             head.prevElement = newNode;
             size++;
         }
+            return;
+    }
 
 
 //        Node next = new Node();
@@ -82,7 +84,6 @@ public class ListImpl implements List {
 //        firstNode = new Node(null, null, next);
 //        next.setCurrentElement(firstNode);
 //        size++;
-    }
 
     @Override
     public void addLast(Object element) {
@@ -92,7 +93,7 @@ public class ListImpl implements List {
 //        prev.setNextElement(lastNode);
 //        size++;
         final Node l = last;
-        final ListImpl.Node newNode = new ListImpl.Node(element, l, null);
+        final ListImpl.Node newNode = new ListImpl.Node(null, element, l);
         last = newNode;
         if (l == null)
             head = newNode;
