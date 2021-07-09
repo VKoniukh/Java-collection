@@ -4,24 +4,21 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class StackImpl implements Stack {
-    public int size = 0;
-    public int arrayCapacity = 16;
-    Object[] elementData;
+    private final int DEFAULT_CAPACITY = 100;
+    private int top;  // indicates the next open slot
+    private transient Object[] stack;
+    private int size;
 
     public void StackImpl() {
-        if (arrayCapacity > 0) {
-            elementData = new Object[arrayCapacity];
-            this.arrayCapacity = arrayCapacity;
-        } else {
-            throw new IllegalArgumentException("Пространство массива вне границ");
-        }
+        top = 0;
+        stack = (Object[]) (new Object[DEFAULT_CAPACITY]);
+        int size = DEFAULT_CAPACITY;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++)
-            elementData[i] = null;
-
+        for (int i = 0; i < top; i++)
+            stack[i] = null;
         size = 0;
     }
 
@@ -51,40 +48,47 @@ public class StackImpl implements Stack {
 
     @Override
     public void push(Object element) {
-        if (isFull()) {
-            enlarge();
-        }
-        size++;
-        // Добавить элемент в начало стека
-        elementData[size - 1] = element;
+        if (size() == stack.length)
+            expandCapacity();
+
+        stack[top] = element;
+        top++;
+
+//        if (isFull()) {
+//            enlarge();
+//        }
+//        size++;
+//        // Добавить элемент в начало стека
+//        elementData[size - 1] = element;
     }
 
     public boolean isFull() {
-
-        return elementData.length == size;
+        return stack.length == size;
     }
 
 
-    public void enlarge() {
-        Object[] newData = new Object[elementData.length * 2];
-        for (int i = 0; i < size; i++) {
-            newData[i] = elementData[i];
+    private void expandCapacity() {
+        Object[] larger = (Object[]) (new Object[stack.length * 2]);
 
-        }
-        elementData = newData;
+        for (int index = 0; index < stack.length; index++)
+            larger[index] = stack[index];
+
+        stack = larger;
     }
 
 
     @Override
     public Object pop() {
-        if (isEmpty()) {
+        if (isEmpty())
             throw new NoSuchElementException();
-        }
-        Object element = elementData[size - 1];
-        elementData[size] = null;
-        size--;
-        return element;
+        top--;
+        Object result = stack[top];
+        stack[top] = null;
+        return result;
     }
+
+
+
 
     public boolean isEmpty() {
         return size < 1;
@@ -95,7 +99,7 @@ public class StackImpl implements Stack {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
-        return elementData[size-1];
+        return stack[size - 1];
     }
 
 
@@ -108,9 +112,9 @@ public class StackImpl implements Stack {
         } else {
             for (int i = 0; i < size; i++) {
                 if (i == size - 1) {
-                    sb.append(elementData[i]);
+                    sb.append(stack[i]);
                 } else {
-                    sb.append(elementData[i]).append(", ");
+                    sb.append(stack[i]).append(", ");
                 }
             }
         }
