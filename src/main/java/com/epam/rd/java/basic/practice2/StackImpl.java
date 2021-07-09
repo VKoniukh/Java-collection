@@ -53,7 +53,6 @@ public class StackImpl implements Stack {
     public void push(Object element) {
         if (isFull()) {
             enlarge();
-
         }
         size++;
         // Добавить элемент в начало стека
@@ -67,7 +66,7 @@ public class StackImpl implements Stack {
 
 
     public void enlarge() {
-        Object[] newData = (Object[]) new Object[elementData.length * 2];
+        Object[] newData = new Object[elementData.length * 2];
         for (int i = 0; i < size; i++) {
             newData[i] = elementData[i];
 
