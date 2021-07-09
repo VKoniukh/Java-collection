@@ -8,8 +8,7 @@ public class StackImpl implements Stack {
     public int arrayCapacity = 16;
     Object[] elementData;
 
-    public StackImpl() {
-        super();
+    public void StackImpl() {
         if (arrayCapacity > 0) {
             elementData = new Object[arrayCapacity];
             this.arrayCapacity = arrayCapacity;
@@ -36,25 +35,22 @@ public class StackImpl implements Stack {
     }
 
     private class IteratorImpl implements Iterator<Object> {
-
-        private int currentIndex = 0;
+        private Iterator<Object> iterator;
 
         @Override
         public boolean hasNext() {
-            return currentIndex < size;
+            return iterator.hasNext();
         }
 
         @Override
         public Object next() {
-            return elementData[currentIndex++];
+            return iterator.next();
         }
 
     }
 
     @Override
     public void push(Object element) {
-        if (element == null)
-            throw new NoSuchElementException();
         if (isFull()) {
             enlarge();
 
