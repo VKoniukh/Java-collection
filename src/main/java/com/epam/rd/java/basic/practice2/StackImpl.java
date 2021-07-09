@@ -6,23 +6,25 @@ public class StackImpl implements Stack {
 
     private Object arr[];
     private int top;
-    private int capacity;
+    private int size1;
 
-    StackImpl(int size) {
-        arr = new Object[size];
-        capacity = size;
+    public StackImpl(int num) {
+        size1 = num;
         top = -1;
+        arr = new Object[size1];
     }
-
 
     @Override
     public void clear() {
+        for (int i = 0; i < size1; i++)
+            arr[i] = null;
 
+        size1 = 0;
     }
 
     @Override
     public int size() {
-        return top + 1;
+        return size1;
     }
 
     public Iterator<Object> iterator() {
@@ -35,7 +37,7 @@ public class StackImpl implements Stack {
 
             @Override
             public boolean hasNext() {
-                return currentIndex < top + 1;
+                return currentIndex < size1;
             }
 
             @Override
@@ -55,7 +57,7 @@ public class StackImpl implements Stack {
     }
 
     public Boolean isFull() {
-        return top == capacity - 1;
+        return top == size1 - 1;
     }
 
     public Boolean isEmpty() {

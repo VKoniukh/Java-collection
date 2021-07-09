@@ -4,6 +4,21 @@ import java.util.Iterator;
 
 public class QueueImpl implements Queue {
 
+        private Object[] arr;      // array to store queue elements
+        private int front;      // front points to the front element in the queue
+        private int rear;       // rear points to the last element in the queue
+        private int capacity;   // maximum capacity of the queue
+        private int count;      // current size of the queue
+
+        // Constructor to initialize a queue
+//        Queue(int size) {
+//            arr = new Object[size];
+//            capacity = size;
+//            front = 0;
+//            rear = -1;
+//            count = 0;
+//        }
+
     public QueueImpl() {
         
     }
