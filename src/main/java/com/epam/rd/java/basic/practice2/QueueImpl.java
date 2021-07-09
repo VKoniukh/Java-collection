@@ -4,22 +4,6 @@ import java.util.Iterator;
 
 public class QueueImpl implements Queue {
 
-    Node head; // Голова очереди
-    Node tail; // Хвост очереди
-    int size;
-
-    class Node {
-        Node prev;
-        Node next;
-        Object data;
-
-        public Node(Object data) {
-            super();
-            this.data = data;
-        }
-    }
-
-
     public QueueImpl() {
 
     }
@@ -64,19 +48,6 @@ public class QueueImpl implements Queue {
 
     @Override
     public Object top() {
-//        Node newNode = new Node();
-//        // Пустая очередь
-//        if (head == null) {
-//            head = newNode;
-//            tail = newNode;
-//            size++;
-//        } else {
-//            Node node = tail;
-//            newNode.next = node;
-//            node.prev = newNode;
-//            tail = newNode;
-//            size++;
-//
         return null;
     }
 
