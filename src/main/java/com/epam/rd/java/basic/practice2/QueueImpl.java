@@ -11,7 +11,7 @@ public class QueueImpl implements Queue {
         private int count;      // current size of the queue
 
         // Constructor to initialize a queue
-//        Queue(int size) {
+//        public void Queue (Object size) {
 //            arr = new Object[size];
 //            capacity = size;
 //            front = 0;

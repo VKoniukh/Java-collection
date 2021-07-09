@@ -1,30 +1,34 @@
 package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class StackImpl implements Stack {
+    public int size = 0;
+    public int arrayCapacity = 16;
+    Object[] elementData;
 
-    private Object arr[];
-    private int top;
-    private int size1;
-
-    public StackImpl(int num) {
-        size1 = num;
-        top = -1;
-        arr = new Object[size1];
+    public StackImpl() {
+        super();
+        if (arrayCapacity > 0) {
+            elementData = new Object[arrayCapacity];
+            this.arrayCapacity = arrayCapacity;
+        } else {
+            throw new IllegalArgumentException("Пространство массива вне границ");
+        }
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < size1; i++)
-            arr[i] = null;
+        for (int i = 0; i < size; i++)
+            elementData[i] = null;
 
-        size1 = 0;
+        size = 0;
     }
 
     @Override
     public int size() {
-        return size1;
+        return size;
     }
 
     public Iterator<Object> iterator() {
@@ -33,78 +37,85 @@ public class StackImpl implements Stack {
 
     private class IteratorImpl implements Iterator<Object> {
 
-            private int currentIndex = 0;
+        private int currentIndex = 0;
 
-            @Override
-            public boolean hasNext() {
-                return currentIndex < size1;
-            }
-
-            @Override
-            public Object next() {
-                return arr[currentIndex++];
-            }
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size;
         }
+
+        @Override
+        public Object next() {
+            return elementData[currentIndex++];
+        }
+
+    }
 
     @Override
     public void push(Object element) {
+        if (element == null)
+            throw new NoSuchElementException();
         if (isFull()) {
-            System.out.println("Overflow\nProgram Terminated\n");
-            System.exit(1);
+            enlarge();
+
         }
-        System.out.println("Inserting " + element);
-        arr[++top] = element;
+        size++;
+        // Добавить элемент в начало стека
+        elementData[size - 1] = element;
     }
 
-    public Boolean isFull() {
-        return top == size1 - 1;
+    public boolean isFull() {
+
+        return elementData.length == size;
     }
 
-    public Boolean isEmpty() {
-        return top == -1;
+
+    public void enlarge() {
+        Object[] newData = (Object[]) new Object[elementData.length * 2];
+        for (int i = 0; i < size; i++) {
+            newData[i] = elementData[i];
+
+        }
+        elementData = newData;
     }
+
 
     @Override
     public Object pop() {
-        {
-            if (isEmpty()) {
-                System.out.println("Underflow\nProgram Terminated");
-                System.exit(1);
-            }
-
-            System.out.println("Removing " + peek());
-            
-            return arr[top--];
+        if (isEmpty()) {
+            throw new NoSuchElementException();
         }
+        Object element = elementData[size - 1];
+        elementData[size] = null;
+        size--;
+        return element;
     }
 
-    public Object peek() {
-        if (!isEmpty()) {
-            return arr[top];
-        } else {
-            System.exit(1);
-        }
-
-        return -1;
+    public boolean isEmpty() {
+        return size < 1;
     }
 
     @Override
     public Object top() {
-        return top + 1;
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return elementData[size-1];
     }
+
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        if (top + 1 == 0) {
+        if (size == 0) {
             sb.append("]");
             return sb.toString();
         } else {
-            for (int i = 0; i < top + 1; i++) {
-                if (i == top + 1 - 1) {
-                    sb.append(arr[i]);
+            for (int i = 0; i < size; i++) {
+                if (i == size - 1) {
+                    sb.append(elementData[i]);
                 } else {
-                    sb.append(arr[i]).append(", ");
+                    sb.append(elementData[i]).append(", ");
                 }
             }
         }
@@ -112,8 +123,9 @@ public class StackImpl implements Stack {
         return sb.toString();
     }
 
+
     public static void main(String[] args) {
-        //Can test classes here
+//Can test classes here
     }
 
 }
